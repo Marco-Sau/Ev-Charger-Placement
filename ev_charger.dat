@@ -1,0 +1,73 @@
+/*********************************************
+ * Data file for EV Charger Placement model
+ * Contains data for the urban scenario
+ *********************************************/
+
+// Basic parameters
+numLocations = 10;   // Number of potential charging station locations
+numVehicles = 53;    // Number of vehicles (based on original model)
+batteryRange = 30;   // 30km range
+maxVehiclesPerStation = 5;  // Capacity constraint
+
+// Location coordinates (potential charging station locations)
+locationCoords = {
+  <40, 40>,   // Residential 1 center
+  <20, 80>,   // Residential 1 edge
+  <140, 150>, // Residential 2 center
+  <160, 170>, // Residential 2 edge
+  <100, 100>, // Commercial district center
+  <80, 120>,  // Commercial district edge
+  <150, 30>,  // Industrial area
+  <90, 60>,   // Between residential and commercial
+  <120, 140>, // High traffic intersection
+  <60, 110>   // Shopping area
+};
+
+// Vehicle coordinates - this is a subset of vehicles based on the urban scenario
+// In practice, this would be generated according to district densities
+vehicleCoords = {
+  // Residential 1 area
+  <35, 65>, <27, 73>, <42, 68>, <33, 71>, <38, 64>, <31, 76>, <36, 69>, <29, 67>, <44, 71>, <32, 62>,
+  // Residential 2 area
+  <145, 162>, <153, 158>, <147, 164>, <151, 157>, <146, 159>, <149, 161>, <152, 165>,
+  // Commercial district
+  <98, 102>, <103, 99>, <96, 97>, <101, 101>, <105, 103>, <99, 98>, <102, 100>, <97, 104>,
+  // Industrial area
+  <158, 38>, <162, 42>, <155, 41>, <159, 39>,
+  // Additional vehicles across the map
+  <50, 50>, <70, 80>, <110, 130>, <60, 40>, <130, 90>, <85, 75>, <125, 115>, <45, 95>, <115, 55>,
+  <75, 145>, <140, 60>, <95, 135>, <65, 25>, <135, 105>, <55, 85>, <145, 125>, <40, 115>, <120, 45>,
+  <80, 155>, <150, 75>, <90, 30>, <160, 100>, <70, 140>, <110, 20>, <50, 110>, <130, 150>, <75, 35>,
+  <155, 95>, <45, 145>, <125, 65>, <85, 125>
+};
+
+// Installation costs for each location
+installationCosts = [
+  12500, // Higher cost in residential 1 center
+  11000, // Residential 1 edge
+  13000, // Higher cost in residential 2 center
+  12000, // Residential 2 edge
+  15000, // Highest cost in commercial center
+  14000, // Commercial edge
+  10000, // Lower cost in industrial area
+  13500, // Between residential and commercial
+  14500, // High traffic intersection
+  13000  // Shopping area
+];
+
+// Default weights (all equal)
+vehicleWeights = [
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1
+];
+
+// Pre-calculated distance matrix
+distanceMatrix = [
+  // This would contain the Euclidean distance from each vehicle to each location
+  // For brevity, I'm providing a simplified calculation method below in run.js instead of full matrix
+]; 
