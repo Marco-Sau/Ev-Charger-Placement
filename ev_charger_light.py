@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import random
 import pandas as pd
 import math
+import time
 
 # Import visualization functions from the dedicated module
 from ev_charger_visualization import plot_urban_solution
@@ -17,15 +18,16 @@ BATTERY_RANGE = 50        # Battery range in km (how far a vehicle can travel to
 MAX_VEHICLES_DAY = 50      # Maximum vehicles per station during day (7am-10pm)
 MAX_VEHICLES_NIGHT = 10    # Maximum vehicles per station during night (10pm-7am)
 CHARGING_TIME_HOURS = 3   # Hours required to fully charge a vehicle
-PEOPLE_PER_VEHICLE = 1000  # Number of people per vehicle (1 vehicle per 100 people)
+PEOPLE_PER_VEHICLE = 200  # Number of people per vehicle (lower to generate more vehicles for small sample)
+NUM_MUNICIPALITIES = 5    # Number of municipalities to include in the lightweight version
 
 def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE_PER_VEHICLE):
     """
-    Create a scenario based on real Sardinian municipalities data.
+    Create a lightweight scenario based on the first few Sardinian municipalities.
     
     Args:
         battery_range: Maximum battery range in km
-        people_per_vehicle: Number of people per vehicle (e.g., 100 means 1 vehicle per 100 people)
+        people_per_vehicle: Number of people per vehicle
         
     Returns:
         Dictionary with districts information and vehicle locations
@@ -37,7 +39,11 @@ def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE
     
     # Filter out municipalities with missing data
     municipalities_df = municipalities_df.dropna(subset=['Latitude', 'Longitude', 'Surface_km2', 'Population'])
-    print(f"Using {len(municipalities_df)} municipalities with complete data")
+    print(f"Using complete data municipalities")
+    
+    # Select only the first NUM_MUNICIPALITIES municipalities
+    municipalities_df = municipalities_df.head(NUM_MUNICIPALITIES)
+    print(f"Limiting to first {NUM_MUNICIPALITIES} municipalities for lightweight version")
     
     # Normalize coordinates to a reasonable range for the simulation
     # First, calculate the center of the region
@@ -105,57 +111,9 @@ def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE
     
     return {'districts': districts, 'vehicles': vehicles}
 
-def calculate_installation_costs(locations, districts=None):
-    """
-    Calculate installation costs for each candidate location based on the size of the residential area.
-    Larger areas have higher installation costs.
-    
-    Args:
-        locations: Array of candidate location coordinates
-        districts: Dictionary of district information
-        
-    Returns:
-        Array of installation costs for each location
-    """
-    # Base cost for residential areas
-    base_cost = 10000
-    
-    # Initialize all costs to the base cost
-    costs = np.ones(len(locations)) * base_cost
-    
-    # If districts are provided, adjust costs based on district size
-    if districts:
-        for i, (x, y) in enumerate(locations):
-            # Find which district this location falls into
-            for district_name, district in districts.items():
-                center_x, center_y = district['center']
-                size_x, size_y = district['size']
-                
-                # Check if location is within this district
-                in_x_range = abs(x - center_x) <= size_x
-                in_y_range = abs(y - center_y) <= size_y
-                
-                if in_x_range and in_y_range:
-                    # Calculate area size (using radius as an approximation)
-                    area_size = size_x * size_y * 4  # Approximate area
-                    
-                    # Define size ranges and cost multipliers
-                    if area_size < 20:  # Small area
-                        cost_multiplier = 0.8  # Lower cost for small areas
-                    elif area_size < 50:  # Medium area
-                        cost_multiplier = 1.0  # Base cost for medium areas
-                    else:  # Large area
-                        cost_multiplier = 1.5  # Higher cost for large areas
-                    
-                    # Apply the cost multiplier
-                    costs[i] = base_cost * cost_multiplier
-                    break
-    
-    return costs
-
 def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE):
     """
-    Directly optimize the placement of EV charging stations without pre-computing candidate locations.
+    Directly optimize the placement of EV charging stations.
     
     Args:
         vehicles: List of vehicle coordinates
@@ -165,6 +123,9 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
     Returns:
         Dictionary with optimization results
     """
+    # Start timing
+    start_time = time.time()
+    
     # Convert vehicles to numpy array if needed
     vehicles_array = np.array(vehicles)
     num_vehicles = len(vehicles_array)
@@ -235,11 +196,17 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
             ctname=f"station_{j}_capacity_constraint"
         )
     
-    # Solve the model
+    # Solve the model with a reasonable time limit (30 seconds)
     print("Solving optimization model...")
+    mdl.parameters.timelimit = 30  # Set time limit to 30 seconds
     solution = mdl.solve(log_output=True)
     
+    # Calculate elapsed time
+    elapsed_time = time.time() - start_time
+    
     if solution:
+        print(f"Optimal solution found in {elapsed_time:.2f} seconds")
+        
         # Extract results
         selected_stations = []
         station_loads = {}
@@ -283,7 +250,7 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
             'vehicle_assignments': vehicle_assignments
         }
     else:
-        print("No feasible solution found. Trying to diagnose the issue...")
+        print(f"No optimal solution found in {elapsed_time:.2f} seconds")
         
         try:
             infeasible_constraints = mdl.find_conflicts()
@@ -294,7 +261,7 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
         except:
             print("Could not identify specific infeasible constraints")
         
-        print("\nTry adjusting the maximum battery range to make the problem feasible")
+        print("\nTry adjusting parameters to make the problem feasible")
         return None
 
 # Main execution code
@@ -320,10 +287,10 @@ if __name__ == "__main__":
             selected_locations=np.array(result['selected_stations']),
             all_locations=np.array(result['selected_stations']),  # For direct optimization, all locations = selected locations
             battery_range=BATTERY_RANGE,
-            title=f"EV Optimization (1 vehicle per {PEOPLE_PER_VEHICLE} people)"
+            title=f"EV Optimization (Lightweight - {NUM_MUNICIPALITIES} municipalities)"
         )
     
     # Keep the program running until the user decides to exit
     print("\nOptimization complete. The plot window will remain open.")
     print("Press Enter to exit the program...")
-    input()
+    input() 
