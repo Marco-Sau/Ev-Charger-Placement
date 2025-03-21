@@ -14,10 +14,18 @@ plt.ion()
 # ============== GLOBAL PARAMETERS ==============
 # Key parameters that control the optimization model
 BATTERY_RANGE = 50        # Battery range in km (how far a vehicle can travel to a charging station)
-MAX_VEHICLES_DAY = 50      # Maximum vehicles per station during day (7am-10pm)
-MAX_VEHICLES_NIGHT = 10    # Maximum vehicles per station during night (10pm-7am)
+MAX_VEHICLES_PER_STATION = 10  # Maximum vehicles that can be served by each station
 CHARGING_TIME_HOURS = 3   # Hours required to fully charge a vehicle
 PEOPLE_PER_VEHICLE = 1000  # Number of people per vehicle (1 vehicle per 100 people)
+TIME_LIMIT_SECONDS = 1800  # Maximum time (in seconds) to run the optimization (default: 1 hour)
+
+# Installation cost parameters
+BASE_INSTALLATION_COST = 10000  # Base cost for installing a charging station
+SMALL_AREA_THRESHOLD = 20       # Area size threshold for small areas (km²)
+MEDIUM_AREA_THRESHOLD = 50      # Area size threshold for medium areas (km²)
+SMALL_AREA_MULTIPLIER = 1.5     # Cost multiplier for small areas
+MEDIUM_AREA_MULTIPLIER = 1.0    # Cost multiplier for medium areas
+LARGE_AREA_MULTIPLIER = 0.8     # Cost multiplier for large areas
 
 def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE_PER_VEHICLE):
     """
@@ -105,62 +113,16 @@ def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE
     
     return {'districts': districts, 'vehicles': vehicles}
 
-def calculate_installation_costs(locations, districts=None):
+def optimize_ev_placement(vehicles, districts, battery_range=BATTERY_RANGE, time_limit=TIME_LIMIT_SECONDS):
     """
-    Calculate installation costs for each candidate location based on the size of the residential area.
-    Larger areas have higher installation costs.
-    
-    Args:
-        locations: Array of candidate location coordinates
-        districts: Dictionary of district information
-        
-    Returns:
-        Array of installation costs for each location
-    """
-    # Base cost for residential areas
-    base_cost = 10000
-    
-    # Initialize all costs to the base cost
-    costs = np.ones(len(locations)) * base_cost
-    
-    # If districts are provided, adjust costs based on district size
-    if districts:
-        for i, (x, y) in enumerate(locations):
-            # Find which district this location falls into
-            for district_name, district in districts.items():
-                center_x, center_y = district['center']
-                size_x, size_y = district['size']
-                
-                # Check if location is within this district
-                in_x_range = abs(x - center_x) <= size_x
-                in_y_range = abs(y - center_y) <= size_y
-                
-                if in_x_range and in_y_range:
-                    # Calculate area size (using radius as an approximation)
-                    area_size = size_x * size_y * 4  # Approximate area
-                    
-                    # Define size ranges and cost multipliers
-                    if area_size < 20:  # Small area
-                        cost_multiplier = 0.8  # Lower cost for small areas
-                    elif area_size < 50:  # Medium area
-                        cost_multiplier = 1.0  # Base cost for medium areas
-                    else:  # Large area
-                        cost_multiplier = 1.5  # Higher cost for large areas
-                    
-                    # Apply the cost multiplier
-                    costs[i] = base_cost * cost_multiplier
-                    break
-    
-    return costs
-
-def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE):
-    """
-    Directly optimize the placement of EV charging stations without pre-computing candidate locations.
+    Optimize the placement of EV charging stations to minimize the total number of stations
+    while ensuring each vehicle has a charging station within battery range.
     
     Args:
         vehicles: List of vehicle coordinates
         districts: Dictionary of district information
-        battery_range: Maximum battery range in km (retained for visualization purposes)
+        battery_range: Maximum battery range in km
+        time_limit: Maximum time in seconds to run the optimization
         
     Returns:
         Dictionary with optimization results
@@ -169,10 +131,15 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
     vehicles_array = np.array(vehicles)
     num_vehicles = len(vehicles_array)
     
-    print(f"Running direct optimization for {num_vehicles} vehicles")
+    print(f"Running optimization for {num_vehicles} vehicles with focus on minimizing the number of stations")
+    print(f"Time limit set to {time_limit} seconds ({time_limit/3600:.1f} hours)")
+    print(f"Battery range: {battery_range} km, Max vehicles per station: {MAX_VEHICLES_PER_STATION}")
     
     # Create a mathematical model
-    mdl = Model("EV Charger Direct Placement")
+    mdl = Model("EV Charger Placement - Station Minimization")
+    
+    # Set the time limit
+    mdl.parameters.timelimit = time_limit
     
     # DECISION VARIABLES
     # Binary variables indicating if a station is placed at vehicle location i
@@ -181,36 +148,17 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
     # Binary variables indicating if vehicle i is assigned to station j
     y = mdl.binary_var_matrix(num_vehicles, num_vehicles, name="vehicle_assignment")
     
-    # OBJECTIVE FUNCTION
-    # Calculate installation costs if a station is placed at vehicle location i
-    # We use the vehicle's location to determine the district and thus the installation cost
-    installation_costs = np.ones(num_vehicles) * 120  # Base cost
+    # Calculate distances between all pairs of vehicle locations
+    distances = np.zeros((num_vehicles, num_vehicles))
+    for i in range(num_vehicles):
+        for j in range(num_vehicles):
+            # Euclidean distance between vehicle i and potential station j
+            dx = vehicles_array[i, 0] - vehicles_array[j, 0]
+            dy = vehicles_array[i, 1] - vehicles_array[j, 1]
+            distances[i, j] = math.sqrt(dx*dx + dy*dy)
     
-    if districts:
-        for i, (vx, vy) in enumerate(vehicles_array):
-            for district_name, district in districts.items():
-                center_x, center_y = district['center']
-                size_x, size_y = district['size']
-                
-                # Check if vehicle is within this district
-                in_x_range = abs(vx - center_x) <= size_x
-                in_y_range = abs(vy - center_y) <= size_y
-                
-                if in_x_range and in_y_range:
-                    # Calculate area size
-                    area_size = size_x * size_y * 4  # Approximate area
-                    
-                    # Apply cost multiplier based on area size
-                    if area_size < 20:  # Small area
-                        installation_costs[i] = 120 * 0.8
-                    elif area_size < 50:  # Medium area
-                        installation_costs[i] = 120 * 1.0
-                    else:  # Large area
-                        installation_costs[i] = 120 * 1.5
-                    break
-    
-    # Minimize the total installation cost
-    mdl.minimize(mdl.sum(installation_costs[i] * x[i] for i in range(num_vehicles)))
+    # OBJECTIVE FUNCTION: Minimize the total number of charging stations
+    mdl.minimize(mdl.sum(x[j] for j in range(num_vehicles)))
     
     # CONSTRAINTS
     # 1. Each vehicle must be assigned to exactly one charging station
@@ -228,12 +176,28 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
                 ctname=f"vehicle_{i}_station_{j}_placement_constraint"
             )
     
-    # 3. Capacity constraint: each station can serve at most MAX_VEHICLES_DAY vehicles
+    # 3. Battery range constraint: vehicles can only be assigned to stations within battery range
+    for i in range(num_vehicles):
+        for j in range(num_vehicles):
+            if distances[i, j] > battery_range:
+                mdl.add_constraint(
+                    y[i, j] == 0,
+                    ctname=f"vehicle_{i}_range_to_station_{j}_constraint"
+                )
+    
+    # 4. Capacity constraint: each station can serve at most MAX_VEHICLES_PER_STATION vehicles
     for j in range(num_vehicles):
         mdl.add_constraint(
-            mdl.sum(y[i, j] for i in range(num_vehicles)) <= MAX_VEHICLES_DAY * x[j],
+            mdl.sum(y[i, j] for i in range(num_vehicles)) <= MAX_VEHICLES_PER_STATION * x[j],
             ctname=f"station_{j}_capacity_constraint"
         )
+    
+    # Set solver parameters
+    mdl.parameters.mip.tolerances.mipgap = 0.1  # Accept solutions within 10% of optimal
+    mdl.parameters.emphasis.mip = 2  # Emphasize finding optimal solutions
+    mdl.parameters.mip.strategy.file = 2  # Use disk for branch-and-bound tree
+    # Enable symmetry detection (levels 0-5, higher = more aggressive)
+    mdl.parameters.preprocessing.symmetry = 3  # Medium-aggressive symmetry detection
     
     # Solve the model
     print("Solving optimization model...")
@@ -244,25 +208,30 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
         selected_stations = []
         station_loads = {}
         vehicle_assignments = {}
+        total_distance = 0
         
         for j in range(num_vehicles):
             if x[j].solution_value > 0.5:
                 selected_stations.append(j)
                 station_coords = (vehicles_array[j, 0], vehicles_array[j, 1])
-                cost = installation_costs[j]
                 
-                # Count vehicles assigned to this station
+                # Count vehicles assigned to this station and calculate their distances
                 vehicles_assigned = []
+                station_total_distance = 0
                 for i in range(num_vehicles):
                     if y[i, j].solution_value > 0.5:
                         vehicles_assigned.append(i)
                         vehicle_assignments[i] = j
+                        station_total_distance += distances[i, j]
+                        total_distance += distances[i, j]
                 
+                avg_distance = station_total_distance/len(vehicles_assigned) if vehicles_assigned else 0
                 station_loads[j] = len(vehicles_assigned)
-                print(f"Station at {station_coords} - Cost: ${cost:,.2f} - Vehicles: {len(vehicles_assigned)}")
+                print(f"Station at {station_coords} - Vehicles: {len(vehicles_assigned)} - Avg Distance: {avg_distance:.2f} km")
         
-        print(f"\nTotal cost: ${solution.objective_value:,.2f}")
-        print(f"Total stations: {len(selected_stations)}")
+        print(f"\nTotal stations: {len(selected_stations)}")
+        print(f"Total distance (secondary metric): {total_distance:.2f} km")
+        print(f"Average distance per vehicle: {total_distance/num_vehicles:.2f} km")
         
         # Check for unassigned vehicles
         unassigned_vehicles = []
@@ -278,7 +247,8 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
         return {
             'selected_stations': [vehicles_array[j] for j in selected_stations],
             'station_indices': selected_stations,
-            'total_cost': solution.objective_value,
+            'total_stations': len(selected_stations),
+            'total_distance': total_distance,
             'station_loads': station_loads,
             'vehicle_assignments': vehicle_assignments
         }
@@ -294,7 +264,7 @@ def optimize_ev_placement(vehicles, districts=None, battery_range=BATTERY_RANGE)
         except:
             print("Could not identify specific infeasible constraints")
         
-        print("\nTry adjusting the maximum battery range to make the problem feasible")
+        print("\nTry adjusting the battery range to make the problem feasible")
         return None
 
 # Main execution code
@@ -320,7 +290,7 @@ if __name__ == "__main__":
             selected_locations=np.array(result['selected_stations']),
             all_locations=np.array(result['selected_stations']),  # For direct optimization, all locations = selected locations
             battery_range=BATTERY_RANGE,
-            title=f"EV Optimization (1 vehicle per {PEOPLE_PER_VEHICLE} people)"
+            title=f"EV Optimization - Station Minimization (Battery Range: {BATTERY_RANGE} km)"
         )
     
     # Keep the program running until the user decides to exit
