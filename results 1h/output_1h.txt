@@ -1,0 +1,222 @@
+Loading Sardinian municipalities data...
+Loaded data for 377 municipalities
+Using 377 municipalities with complete data
+Generating vehicles using population data (1 vehicle per 1000 people)
+Expected vehicles based on population: 1528
+Generated 1528 vehicles across 377 municipalities
+Generated 1528 vehicles across 377 municipalities
+Using 1 vehicle per 1000 people
+Running optimization for 1528 vehicles with focus on minimizing the number of stations
+Time limit set to 3600 seconds (1.0 hours)
+Battery range: 50 km, Max vehicles per station: 10
+Solving optimization model...
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_Read_DataCheck                          1
+CPXPARAM_MIP_Strategy_File                       2
+CPXPARAM_Emphasis_MIP                            2
+CPXPARAM_Preprocessing_Symmetry                  3
+CPXPARAM_TimeLimit                               3600
+CPXPARAM_MIP_Tolerances_MIPGap                   0.10000000000000001
+Tried aggregator 1 time.
+Presolve has eliminated 3409352 rows and 1704676 columns...
+MIP Presolve eliminated 3409352 rows and 1704676 columns.
+Reduced MIP has 633164 rows, 631636 columns, and 2521960 nonzeros.
+Reduced MIP has 631636 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 10.87 sec. (13366.24 ticks)
+Found incumbent of value 1528.000000 after 12.92 sec. (16541.04 ticks)
+Probing time = 0.26 sec. (156.53 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 633164 rows, 631636 columns, and 2521960 nonzeros.
+Reduced MIP has 631636 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 7.48 sec. (9324.33 ticks)
+Probing time = 0.27 sec. (156.53 ticks)
+Clique table members: 1192802.
+MIP emphasis: optimality.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 10 threads.
+Root relaxation solution time = 3577.98 sec. (3587967.88 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                         1528.0000        0.0000           100.00%
+*     0+    0                          163.0000        0.0000           100.00%
+*     0+    0                          154.0000        0.0000           100.00%
+      0     0  -1.00000e+37     0      154.0000        0.0000   167880  100.00%
+
+Root node processing (before b&c):
+  Real time             = 3600.30 sec. (3615773.75 ticks)
+Parallel b&c, 10 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) = 3600.30 sec. (3615773.75 ticks)
+Station at (-14.395694176316333, 14.80427849758363) - Vehicles: 10 - Avg Distance: 26.32 km - Cost: €10,000
+Station at (-53.313557888650266, 61.551402892664726) - Vehicles: 10 - Avg Distance: 27.69 km - Cost: €8,000
+Station at (-52.809725022420025, 63.15516296210333) - Vehicles: 10 - Avg Distance: 27.31 km - Cost: €8,000
+Station at (-37.075137053012746, -21.140770977990744) - Vehicles: 10 - Avg Distance: 26.74 km - Cost: €8,000
+Station at (39.607621246658496, 111.99477041064284) - Vehicles: 10 - Avg Distance: 27.89 km - Cost: €8,000
+Station at (33.83160841656262, 124.65924828956601) - Vehicles: 10 - Avg Distance: 24.86 km - Cost: €8,000
+Station at (46.91115797377585, -14.068984351549727) - Vehicles: 10 - Avg Distance: 30.85 km - Cost: €8,000
+Station at (5.425159113756756, -78.623916565461) - Vehicles: 10 - Avg Distance: 13.76 km - Cost: €8,000
+Station at (4.661912855051389, -82.11548904091127) - Vehicles: 10 - Avg Distance: 22.69 km - Cost: €8,000
+Station at (0.025674500907412412, -74.78947564945634) - Vehicles: 10 - Avg Distance: 19.74 km - Cost: €8,000
+Station at (6.7945466825918395, -74.0513405428756) - Vehicles: 10 - Avg Distance: 20.46 km - Cost: €8,000
+Station at (-5.614379693854335, -20.225326928712686) - Vehicles: 10 - Avg Distance: 29.92 km - Cost: €15,000
+Station at (-6.2010711817823125, 109.07564817610117) - Vehicles: 10 - Avg Distance: 29.30 km - Cost: €8,000
+Station at (32.91902048591051, -48.452056941963896) - Vehicles: 10 - Avg Distance: 44.38 km - Cost: €10,000
+Station at (-23.04944817242409, 62.31273203036433) - Vehicles: 10 - Avg Distance: 32.10 km - Cost: €10,000
+Station at (56.93244336140373, -20.79206128610108) - Vehicles: 10 - Avg Distance: 31.81 km - Cost: €10,000
+Station at (56.22892637459041, -14.827427597661352) - Vehicles: 10 - Avg Distance: 38.14 km - Cost: €10,000
+Station at (54.42915379376829, 5.221594427047416) - Vehicles: 10 - Avg Distance: 32.01 km - Cost: €8,000
+Station at (64.71691992285375, -4.867021903913899) - Vehicles: 10 - Avg Distance: 32.56 km - Cost: €8,000
+Station at (36.43011598260794, 56.23259809655538) - Vehicles: 10 - Avg Distance: 37.86 km - Cost: €8,000
+Station at (-11.68830668488226, 20.41256043600593) - Vehicles: 10 - Avg Distance: 24.41 km - Cost: €10,000
+Station at (37.42815501034439, -74.80857424975392) - Vehicles: 10 - Avg Distance: 28.73 km - Cost: €8,000
+Station at (14.374025877744183, -87.22904269653901) - Vehicles: 10 - Avg Distance: 19.72 km - Cost: €8,000
+Station at (8.14315314001557, -88.88768748170693) - Vehicles: 10 - Avg Distance: 28.28 km - Cost: €8,000
+Station at (10.927164151751551, -88.21452360429706) - Vehicles: 10 - Avg Distance: 21.29 km - Cost: €8,000
+Station at (11.9716948185269, -82.78872070689387) - Vehicles: 10 - Avg Distance: 15.63 km - Cost: €8,000
+Station at (7.133903072215108, -88.9990023685873) - Vehicles: 10 - Avg Distance: 23.55 km - Cost: €8,000
+Station at (14.197911493111782, -87.169099123484) - Vehicles: 10 - Avg Distance: 19.69 km - Cost: €8,000
+Station at (9.36586621634104, -84.52867165696026) - Vehicles: 10 - Avg Distance: 5.86 km - Cost: €8,000
+Station at (11.432476943303044, -86.64826844150346) - Vehicles: 10 - Avg Distance: 18.33 km - Cost: €8,000
+Station at (12.244336950833564, -87.97760972057299) - Vehicles: 10 - Avg Distance: 14.29 km - Cost: €8,000
+Station at (10.54575810779016, -89.5540625554921) - Vehicles: 10 - Avg Distance: 22.30 km - Cost: €8,000
+Station at (10.796607395961875, -84.0099496224483) - Vehicles: 10 - Avg Distance: 11.80 km - Cost: €8,000
+Station at (14.961622825342126, -84.30871012658882) - Vehicles: 10 - Avg Distance: 10.64 km - Cost: €8,000
+Station at (16.64798087603269, 96.01051925240179) - Vehicles: 10 - Avg Distance: 27.81 km - Cost: €8,000
+Station at (-49.879932595002515, -100.62633108104424) - Vehicles: 10 - Avg Distance: 19.62 km - Cost: €10,000
+Station at (4.02143403573082, -92.49957874281787) - Vehicles: 10 - Avg Distance: 15.81 km - Cost: €8,000
+Station at (4.355734762874258, -87.83116314762586) - Vehicles: 10 - Avg Distance: 24.46 km - Cost: €8,000
+Station at (-2.902304057709347, -87.78694915147712) - Vehicles: 10 - Avg Distance: 21.05 km - Cost: €8,000
+Station at (-38.3118213981589, -87.48270387953215) - Vehicles: 10 - Avg Distance: 24.76 km - Cost: €8,000
+Station at (-44.53731079204401, -96.30599740220748) - Vehicles: 10 - Avg Distance: 24.85 km - Cost: €8,000
+Station at (-36.39187989927971, -88.25911568494519) - Vehicles: 10 - Avg Distance: 29.93 km - Cost: €8,000
+Station at (58.428826654754566, -21.310724201861415) - Vehicles: 10 - Avg Distance: 26.96 km - Cost: €10,000
+Station at (-28.06877495065954, 74.15711856306105) - Vehicles: 10 - Avg Distance: 28.79 km - Cost: €10,000
+Station at (-20.567249861316974, 44.92039031525605) - Vehicles: 10 - Avg Distance: 38.75 km - Cost: €8,000
+Station at (-7.777526082430415, -73.11909539289287) - Vehicles: 10 - Avg Distance: 20.18 km - Cost: €10,000
+Station at (-4.934912361822805, -77.37134458478441) - Vehicles: 10 - Avg Distance: 29.30 km - Cost: €10,000
+Station at (35.64849449387387, -40.81337537498297) - Vehicles: 10 - Avg Distance: 40.12 km - Cost: €8,000
+Station at (-26.549694898886756, 74.46426163423371) - Vehicles: 10 - Avg Distance: 25.11 km - Cost: €10,000
+Station at (-11.14814208452653, 12.24822588775836) - Vehicles: 10 - Avg Distance: 33.83 km - Cost: €10,000
+Station at (7.373645705311073, -45.852609117147125) - Vehicles: 10 - Avg Distance: 38.82 km - Cost: €10,000
+Station at (-27.83210613703734, -56.984423118108936) - Vehicles: 10 - Avg Distance: 34.59 km - Cost: €8,000
+Station at (-29.550639573011427, -83.77829007348325) - Vehicles: 10 - Avg Distance: 39.55 km - Cost: €8,000
+Station at (-33.967964371198015, -71.0949541114735) - Vehicles: 10 - Avg Distance: 29.27 km - Cost: €8,000
+Station at (15.53217060718092, -30.202408966404413) - Vehicles: 10 - Avg Distance: 38.80 km - Cost: €8,000
+Station at (12.077989085382448, -33.71855159559998) - Vehicles: 10 - Avg Distance: 39.90 km - Cost: €15,000
+Station at (-37.26733731052618, 64.25015737575829) - Vehicles: 7 - Avg Distance: 32.83 km - Cost: €8,000
+Station at (37.50035330424511, 136.8079689907642) - Vehicles: 10 - Avg Distance: 27.62 km - Cost: €8,000
+Station at (0.27106736686243504, -13.462049590991207) - Vehicles: 10 - Avg Distance: 36.46 km - Cost: €8,000
+Station at (45.021247710076665, -14.47957776403895) - Vehicles: 10 - Avg Distance: 34.98 km - Cost: €8,000
+Station at (0.6396442662730386, -36.74866673181985) - Vehicles: 10 - Avg Distance: 36.86 km - Cost: €15,000
+Station at (44.01213420215436, 69.75432532931801) - Vehicles: 10 - Avg Distance: 36.35 km - Cost: €8,000
+Station at (-8.472906298180824, -37.54195752725555) - Vehicles: 10 - Avg Distance: 36.36 km - Cost: €10,000
+Station at (-15.919397195680215, 30.438225840823854) - Vehicles: 10 - Avg Distance: 42.73 km - Cost: €8,000
+Station at (-16.69206573708275, 27.72711871573801) - Vehicles: 10 - Avg Distance: 32.18 km - Cost: €8,000
+Station at (-18.56411435089148, 29.124723628393113) - Vehicles: 10 - Avg Distance: 35.91 km - Cost: €8,000
+Station at (13.425561006141923, -83.81676153775904) - Vehicles: 10 - Avg Distance: 17.52 km - Cost: €8,000
+Station at (15.096270933998289, -84.20836134398894) - Vehicles: 10 - Avg Distance: 17.00 km - Cost: €8,000
+Station at (54.88352523215673, -68.56050666286717) - Vehicles: 10 - Avg Distance: 37.58 km - Cost: €8,000
+Station at (45.71833753619522, -63.418088467280135) - Vehicles: 10 - Avg Distance: 39.90 km - Cost: €8,000
+Station at (-31.217334049592143, 74.51008183461408) - Vehicles: 10 - Avg Distance: 25.90 km - Cost: €15,000
+Station at (-24.68899320166625, -76.88115643788639) - Vehicles: 10 - Avg Distance: 37.41 km - Cost: €8,000
+Station at (36.81369437263234, 17.12383763120435) - Vehicles: 10 - Avg Distance: 38.84 km - Cost: €8,000
+Station at (28.362633651785902, 17.222948875603056) - Vehicles: 10 - Avg Distance: 42.25 km - Cost: €8,000
+Station at (29.40709965499927, 20.208805456925944) - Vehicles: 10 - Avg Distance: 33.70 km - Cost: €10,000
+Station at (28.711586658487256, 17.708645464341718) - Vehicles: 10 - Avg Distance: 31.10 km - Cost: €8,000
+Station at (33.54598080168149, 14.980139709604924) - Vehicles: 10 - Avg Distance: 34.07 km - Cost: €8,000
+Station at (26.855877312886566, 20.5636334728086) - Vehicles: 10 - Avg Distance: 31.71 km - Cost: €10,000
+Station at (4.464482282138622, -25.765076629657887) - Vehicles: 10 - Avg Distance: 33.20 km - Cost: €10,000
+Station at (51.933482370837304, 98.70606507812523) - Vehicles: 10 - Avg Distance: 23.52 km - Cost: €8,000
+Station at (35.3301582556102, 111.9330296835988) - Vehicles: 10 - Avg Distance: 20.75 km - Cost: €8,000
+Station at (41.12817462992828, 105.5187911482886) - Vehicles: 10 - Avg Distance: 26.18 km - Cost: €8,000
+Station at (45.85430541863496, 91.93886022329346) - Vehicles: 10 - Avg Distance: 27.38 km - Cost: €8,000
+Station at (52.35014595840496, 111.09592835841411) - Vehicles: 10 - Avg Distance: 25.01 km - Cost: €10,000
+Station at (29.74801910738019, 29.409565589597474) - Vehicles: 10 - Avg Distance: 31.93 km - Cost: €8,000
+Station at (-52.34903011202565, 71.10718534470897) - Vehicles: 10 - Avg Distance: 25.29 km - Cost: €10,000
+Station at (-21.94351124616106, 3.6131786426078794) - Vehicles: 10 - Avg Distance: 18.88 km - Cost: €8,000
+Station at (-24.21267754204754, 6.04713504935402) - Vehicles: 10 - Avg Distance: 32.33 km - Cost: €8,000
+Station at (-27.952624094852386, 3.211464532024232) - Vehicles: 10 - Avg Distance: 18.80 km - Cost: €10,000
+Station at (62.97470198684732, 36.50114230217052) - Vehicles: 10 - Avg Distance: 40.32 km - Cost: €8,000
+Station at (7.333190967865525, 31.638609120143176) - Vehicles: 10 - Avg Distance: 34.04 km - Cost: €8,000
+Station at (11.738176902193459, -52.159073253544086) - Vehicles: 10 - Avg Distance: 30.86 km - Cost: €10,000
+Station at (41.55960399139464, -21.419183874149162) - Vehicles: 10 - Avg Distance: 32.31 km - Cost: €8,000
+Station at (-30.23419599586932, 72.24761352588189) - Vehicles: 10 - Avg Distance: 27.89 km - Cost: €15,000
+Station at (-2.5263518748820335, 60.529243682977665) - Vehicles: 10 - Avg Distance: 34.60 km - Cost: €8,000
+Station at (-16.77091091886844, 10.041000832478275) - Vehicles: 10 - Avg Distance: 32.86 km - Cost: €10,000
+Station at (-14.742066862773063, 76.6408479267767) - Vehicles: 10 - Avg Distance: 24.88 km - Cost: €8,000
+Station at (-14.149537636218131, -31.661031975031502) - Vehicles: 10 - Avg Distance: 32.59 km - Cost: €15,000
+Station at (-44.31337607200492, 86.54631650138845) - Vehicles: 10 - Avg Distance: 26.22 km - Cost: €8,000
+Station at (17.260104915722977, -86.15346548939316) - Vehicles: 10 - Avg Distance: 23.87 km - Cost: €8,000
+Station at (16.03774445191135, -81.27649783674369) - Vehicles: 10 - Avg Distance: 9.32 km - Cost: €8,000
+Station at (21.78150424185774, -85.85298264807703) - Vehicles: 10 - Avg Distance: 19.96 km - Cost: €8,000
+Station at (13.86362753032492, -80.51265815527482) - Vehicles: 10 - Avg Distance: 18.46 km - Cost: €8,000
+Station at (18.068310119456555, -79.8504720363538) - Vehicles: 10 - Avg Distance: 18.80 km - Cost: €8,000
+Station at (20.196663521571573, -84.5534203185665) - Vehicles: 10 - Avg Distance: 12.40 km - Cost: €8,000
+Station at (-32.08060918236802, 52.18543883747313) - Vehicles: 10 - Avg Distance: 33.53 km - Cost: €10,000
+Station at (-5.005006336275388, -56.81406580630197) - Vehicles: 10 - Avg Distance: 27.97 km - Cost: €10,000
+Station at (-41.147090943714616, -99.14888806869665) - Vehicles: 10 - Avg Distance: 26.21 km - Cost: €8,000
+Station at (3.3901207220960137, -71.83141310171946) - Vehicles: 10 - Avg Distance: 22.95 km - Cost: €10,000
+Station at (56.13436803699421, 80.9042112089282) - Vehicles: 10 - Avg Distance: 26.21 km - Cost: €8,000
+Station at (-5.037629322931909, -54.2222134409493) - Vehicles: 10 - Avg Distance: 26.66 km - Cost: €8,000
+Station at (-9.494393213980473, -44.49305942159677) - Vehicles: 10 - Avg Distance: 36.44 km - Cost: €8,000
+Station at (13.786363831139205, -55.54797193167077) - Vehicles: 10 - Avg Distance: 33.00 km - Cost: €10,000
+Station at (-40.88041858860577, -103.59396155551993) - Vehicles: 10 - Avg Distance: 31.80 km - Cost: €8,000
+Station at (-27.22250424353878, -18.7980295600663) - Vehicles: 10 - Avg Distance: 26.37 km - Cost: €8,000
+Station at (19.210431569606506, 134.315795072993) - Vehicles: 10 - Avg Distance: 35.13 km - Cost: €8,000
+Station at (-1.287644697012106, 85.4193038222992) - Vehicles: 10 - Avg Distance: 19.82 km - Cost: €10,000
+Station at (0.1969969159095859, 91.46856488880226) - Vehicles: 10 - Avg Distance: 19.77 km - Cost: €8,000
+Station at (-11.29755161147133, 91.64122027059794) - Vehicles: 10 - Avg Distance: 28.16 km - Cost: €10,000
+Station at (6.534409051594472, 81.03267029513982) - Vehicles: 10 - Avg Distance: 24.70 km - Cost: €8,000
+Station at (-13.720413162445428, 86.26593630443773) - Vehicles: 10 - Avg Distance: 23.62 km - Cost: €8,000
+Station at (-15.21737466050211, 91.21522093275341) - Vehicles: 10 - Avg Distance: 31.33 km - Cost: €8,000
+Station at (-11.600137444364305, 83.60125054687441) - Vehicles: 10 - Avg Distance: 23.82 km - Cost: €8,000
+Station at (-0.22599528554685566, 78.62167548785925) - Vehicles: 10 - Avg Distance: 30.47 km - Cost: €8,000
+Station at (-14.054118004434507, 94.8557165820043) - Vehicles: 10 - Avg Distance: 20.74 km - Cost: €10,000
+Station at (6.234633421690506, 98.0101192083736) - Vehicles: 10 - Avg Distance: 27.87 km - Cost: €8,000
+Station at (16.528433952634124, -80.80759466479682) - Vehicles: 10 - Avg Distance: 18.66 km - Cost: €8,000
+Station at (15.490961782449874, -85.02071187442469) - Vehicles: 10 - Avg Distance: 20.58 km - Cost: €8,000
+Station at (-2.126703199117783, -22.203109437073646) - Vehicles: 10 - Avg Distance: 27.92 km - Cost: €15,000
+Station at (-34.078230373618794, 85.11978884774821) - Vehicles: 10 - Avg Distance: 22.68 km - Cost: €10,000
+Station at (-31.54084139157404, 86.01529220769186) - Vehicles: 10 - Avg Distance: 32.68 km - Cost: €10,000
+Station at (-2.365067161040857, -53.5804341563924) - Vehicles: 10 - Avg Distance: 31.84 km - Cost: €8,000
+Station at (7.529612490435888, -80.54216889786251) - Vehicles: 10 - Avg Distance: 24.22 km - Cost: €8,000
+Station at (10.172327218310208, -80.27078056477394) - Vehicles: 10 - Avg Distance: 21.21 km - Cost: €10,000
+Station at (9.263768307991448, -76.48685435435924) - Vehicles: 10 - Avg Distance: 27.44 km - Cost: €10,000
+Station at (7.186384822416505, -77.87000801136965) - Vehicles: 10 - Avg Distance: 15.13 km - Cost: €8,000
+Station at (26.332154622492137, -57.735957729147614) - Vehicles: 10 - Avg Distance: 29.80 km - Cost: €8,000
+Station at (-6.343891960012618, -27.293074660272616) - Vehicles: 10 - Avg Distance: 29.41 km - Cost: €15,000
+Station at (61.2589030569385, 64.86358179769164) - Vehicles: 10 - Avg Distance: 27.71 km - Cost: €8,000
+Station at (55.55658319499928, 66.05627823897645) - Vehicles: 10 - Avg Distance: 31.90 km - Cost: €8,000
+Station at (21.173645478552228, -82.90077309564774) - Vehicles: 10 - Avg Distance: 9.13 km - Cost: €8,000
+Station at (-30.07885729864559, 86.88543697984807) - Vehicles: 10 - Avg Distance: 24.11 km - Cost: €8,000
+Station at (33.73774722510434, 94.90615379047027) - Vehicles: 10 - Avg Distance: 36.66 km - Cost: €8,000
+Station at (-17.37077499652251, -109.21021386123878) - Vehicles: 10 - Avg Distance: 36.05 km - Cost: €8,000
+Station at (57.539515256537086, -8.826955650831707) - Vehicles: 10 - Avg Distance: 28.02 km - Cost: €10,000
+Station at (54.77250326423306, 3.960207795648943) - Vehicles: 10 - Avg Distance: 26.85 km - Cost: €8,000
+Station at (-8.121818450628401, -75.20132066652194) - Vehicles: 1 - Avg Distance: 29.21 km - Cost: €10,000
+Station at (-12.983615586754588, -60.25066510635419) - Vehicles: 10 - Avg Distance: 33.90 km - Cost: €8,000
+Station at (-16.597412460045167, -62.74630880087716) - Vehicles: 10 - Avg Distance: 33.16 km - Cost: €8,000
+Station at (-27.4358710853422, -64.54862048164861) - Vehicles: 10 - Avg Distance: 42.27 km - Cost: €8,000
+Station at (-18.87365330983883, -56.71290438720102) - Vehicles: 10 - Avg Distance: 35.47 km - Cost: €8,000
+Station at (0.5882797138454408, -39.736137065123486) - Vehicles: 10 - Avg Distance: 38.20 km - Cost: €10,000
+Station at (55.78431976862715, -62.26960796018422) - Vehicles: 10 - Avg Distance: 41.38 km - Cost: €8,000
+Station at (0.23449606836281411, -70.73266468585268) - Vehicles: 10 - Avg Distance: 30.18 km - Cost: €10,000
+
+Total stations: 154
+Total distance (secondary metric): 42813.21 km
+Average distance per vehicle: 28.02 km
+Total installation cost: €1,364,000
+Average cost per station: €8,857
+All vehicles have been successfully assigned to charging stations
+Map view saved to: results/map_view.png
+Distance histogram saved to: results/distance_histogram.png
+Station load distribution saved to: results/station_loads.png
+Plots saved to 'results' folder.
+
+Results saved to the 'results' folder.
