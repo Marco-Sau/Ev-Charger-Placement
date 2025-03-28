@@ -155,7 +155,7 @@ def create_urban_scenario(battery_range=BATTERY_RANGE, people_per_vehicle=PEOPLE
     
     return {'districts': districts, 'vehicles': vehicles}
 
-def optimize_ev_placement(districts, vehicles, candidate_locations=None, battery_range=30):
+def optimize_ev_placement(districts, vehicles, candidate_locations=None, battery_range=50):
     """
     Optimize EV charging station placement using a set covering approach.
     
